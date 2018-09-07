@@ -8,8 +8,8 @@ gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'rspec', '~> 3.8.0'
+  gem 'pry', '~> 0.11.3'
+  gem 'rspec-rails', '~> 3.7'
 end
 
 group :development do
