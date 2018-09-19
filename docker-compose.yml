@@ -1,11 +1,15 @@
 version: '3'
 
 services:
-  db:
+  db-app-back-1:
+    container_name: db-app-back-1
+    hostname: db-app-back-1
     image: postgres
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
-  web:
+      - db-data:/var/lib/postgresql/data
+  app-back-1:
+    container_name: app-back-1
+    hostname: app-back-1
     build: .
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
     volumes:
@@ -13,4 +17,10 @@ services:
     ports:
       - '3000:3000'
     depends_on:
-      - db
+      - db-app-back-1
+volumes:
+  db-data:
+networks:
+  default:
+    external:
+      name: backend
