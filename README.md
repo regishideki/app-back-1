@@ -1,24 +1,12 @@
 # README
+To run this application you need:
+- docker
+- docker-compose
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+How to run:
+docker-compose build (everytime you change Gemfile)
+docker-compose up
 
-Things you may want to cover:
+Dependency (run the same as this application):
+https://github.com/regishideki/app-back-2
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
