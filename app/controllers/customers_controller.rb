@@ -1,15 +1,9 @@
-require 'net/http'
-
 class CustomersController < ApplicationController
   def create
     body = request.body.read
 
-    url = URI.parse('http://app-back-2:4000/customers/create')
-    request = Net::HTTP::Post.new(url.to_s)
-    request.body = body
-    Net::HTTP.start(url.host, url.port) do |http|
-      http.request(request)
-    end
+    response = Typhoeus.post('http://app-back-2:4000/customers/create', body: body)
+    render status: 503 and return unless response.success?
 
     Customer.create(JSON.parse(body))
 

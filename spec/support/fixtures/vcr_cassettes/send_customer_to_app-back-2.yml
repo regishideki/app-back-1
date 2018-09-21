@@ -1,0 +1,38 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://app-back-2:4000/customers/create
+    body:
+      encoding: ASCII-8BIT
+      string: '{"name":"maria da silva"}'
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      Expect:
+      - ''
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      ETag:
+      - W/"ed25b395530f24187c68cc37689c5f48"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - a2a466ba-3681-4ab9-9fd0-c0a333965bd8
+      X-Runtime:
+      - '2.171760'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: '{"id":11,"name":"maria da silva","created_at":"2018-09-21T11:27:21.604Z","updated_at":"2018-09-21T11:27:21.604Z"}'
+    http_version: '1.1'
+    adapter_metadata:
+      effective_url: http://app-back-2:4000/customers/create
+  recorded_at: Fri, 21 Sep 2018 11:27:21 GMT
+recorded_with: VCR 4.0.0
