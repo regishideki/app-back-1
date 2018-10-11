@@ -2,6 +2,13 @@
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
 version: 2
+
+commands:
+  create_working_directory:
+    description: 'Creating working directory as root because docker uses absolute path and CircleCI does not permit to use a /something as working_directory'
+    steps:
+      - run: sudo mkdir /app-back-1 && cd /app-back-1 && pwd
+
 jobs:
   build:
     docker:
@@ -15,9 +22,6 @@ jobs:
     #working_directory: /app-back-1
 
     steps:
-      - run:
-          name: Create working directory
-          command: sudo mkdir /app-back-1 && cd /app-back-1 && pwd
       - checkout
       - setup_remote-docker
       - run:
@@ -32,6 +36,8 @@ jobs:
       - run:
           name: Start Container
           command: |
+            pwd
+            ls
             docker-compose up -d
             docker-compose ps
       # Download and cache dependencies
