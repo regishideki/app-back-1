@@ -1,23 +1,45 @@
-ruby CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
 version: 2
+
+commands:
+  create_working_directory:
+    description: 'Creating working directory as root because docker uses absolute path and CircleCI does not permit to use a /something as working_directory'
+    steps:
+      - run: sudo mkdir /app-back-1 && cd /app-back-1 && pwd
+
 jobs:
   build:
     docker:
       # specify the version you desire here
-       - image: circleci/ruby:2.4.1-node-browsers
+      - image: circleci/ruby:2.5.0-node-browsers
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/postgres:9.4
 
-    working_directory: ~/repo
+    #working_directory: /app-back-1
 
     steps:
       - checkout
-
+      - setup_remote-docker
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run:
+          name: Create network
+          command: docker network create backend
+      - run:
+          name: Start Container
+          command: |
+            pwd
+            ls
+            docker-compose up -d
+            docker-compose ps
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -35,8 +57,9 @@ jobs:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
       # Database setup
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
+      - run: docker-compose run app-back-1 ls
+      - run: docker-compose run app-back-1 bundle exec rake db:create
+      - run: docker-compose run app-back-1 bundle exec rake db:schema:load
 
       # run tests!
       - run:
